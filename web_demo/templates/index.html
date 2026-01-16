@@ -1,0 +1,67 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo Phát hiện Gian lận Thi Trực tuyến</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <h1>🎓 Demo Phát hiện Gian lận Thi Trực tuyến</h1>
+
+  <div class="cards">
+
+    <!-- ====== CARD 1: UPLOAD VIDEO ====== -->
+    <div class="card">
+      <h2>📤 Phân tích video đã quay</h2>
+
+      <form action="/upload" method="POST" enctype="multipart/form-data">
+
+        <!-- chọn model -->
+        <div class="model-group">
+          <span class="model-label">Chọn mô hình YOLO:</span>
+
+          <label class="model-option">
+            <input type="radio" name="model_choice" value="yolov8s" checked>
+            YOLOv8s (pretrained)
+          </label>
+
+          <label class="model-option">
+            <input type="radio" name="model_choice" value="yolov8c">
+            YOLOv8 custom
+          </label>
+        </div>
+
+        <input type="file" name="video"
+               accept="video/mp4,video/mov,video/mkv,video/avi"
+               required>
+
+        <p class="hint">Hỗ trợ: MP4, MOV, MKV, AVI (khuyến nghị MP4)</p>
+
+        <button type="submit">🚀 Chạy phân tích</button>
+      </form>
+    </div>
+
+    <!-- ====== CARD 2: WEBCAM REALTIME ====== -->
+    <div class="card">
+      <h2>👁️ Giám sát Real-time qua Webcam</h2>
+      <p class="hint">
+        Mở webcam, hiển thị overlay detect + gaze/head pose
+      </p>
+
+      <div class="model-group">
+        <span class="model-label">Chọn mô hình YOLO:</span>
+
+        <div class="btn-row">
+          <a class="btn" href="/stream?model=yolov8s">▶ Webcam với YOLOv8s</a>
+          <a class="btn" href="/stream?model=yolov8c">▶ Webcam với YOLOv8 custom</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

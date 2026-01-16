@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Kết quả phát hiện hành vi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <h1>🎉 Kết quả phân tích video</h1>
+
+  <!-- tên model YOLO -->
+  <div class="subtitle">
+    🧠 Mô hình sử dụng: <b>{{ model_name }}</b>
+  </div>
+
+  <!-- video output -->
+  <video controls autoplay>
+    <source src="{{ url_for('serve_processed_video', filename=processed_filename) }}" type="video/mp4">
+    Trình duyệt không hỗ trợ video.
+  </video>
+
+  <!-- log csv -->
+  <div class="result-log-box">
+    📋 Nhật ký hành vi (CSV):  
+    <a href="{{ url_for('serve_logfile', filename=log_path) }}" target="_blank">
+      {{ log_path }}
+    </a>
+  </div>
+
+  <br><br>
+  <a class="btn" href="/">⬅ Quay lại trang chính</a>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Giám sát thi trực tuyến</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+  <h1>🎓 Giám sát thi trực tuyến (Real-time)</h1>
+
+  <!-- model YOLO đang dùng -->
+  <div class="subtitle">
+    🧠 Mô hình YOLO: <b>{{ model_name }}</b>
+  </div>
+
+  <!-- streaming -->
+  <img src="{{ url_for('video_feed') }}" alt="Video stream">
+
+  <h2>📋 Nhật ký hành vi gần nhất</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Thời gian (giây)</th>
+        <th>Hành vi</th>
+      </tr>
+    </thead>
+
+    <tbody id="log-body">
+      <tr><td colspan="2">Đang theo dõi...</td></tr>
+    </tbody>
+  </table>
+
+  <a href="/"><button>⬅ Quay lại trang chính</button></a>
+
+  <script>
+    async function updateLogs() {
+      try {
+        const res = await fetch("/events_feed");
+        const data = await res.json();
+        const tbody = document.getElementById("log-body");
+        tbody.innerHTML = "";
+
+        if (data.length === 0) {
+          tbody.innerHTML = "<tr><td colspan='2'>Chưa phát hiện hành vi đáng ngờ</td></tr>";
+          return;
+        }
+
+        data.slice().reverse().forEach(ev => {
+          const row = document.createElement("tr");
+          row.innerHTML = `<td>${ev.time_str}</td><td>${ev.type}</td>`;
+          tbody.appendChild(row);
+        });
+
+      } catch (err) {
+        console.error("Lỗi lấy log:", err);
+      }
+    }
+
+    setInterval(updateLogs, 2000);
+  </script>
+
+</body>
+</html>
